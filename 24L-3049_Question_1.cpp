@@ -54,5 +54,8 @@ void runQ1()
         {
             break; // Get out of the loop.
         }
+
+        system("cls");
+
     }
 }

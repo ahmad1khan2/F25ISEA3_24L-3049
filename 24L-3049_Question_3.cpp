@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-
+#include <conio.h>
 using namespace std;
 
 // The game board, 1 through 9.
@@ -63,6 +63,8 @@ void runQ3()
     // Main game loop.
     do
     {
+        char key_press;
+        system("cls");
         drawBoard();
 
         // Figure out whose turn it is.
@@ -76,12 +78,18 @@ void runQ3()
         {
             board[choice - 1] = mark; // Put the X or O on the board.
             currentPlayer++;          // Next player's turn.
+            cout << "Press any key to continue to the next players turn." << endl;
+            key_press = _getch();
+            system("cls");
         }
         else
         {
             cout << "Idiot. That spot is taken or doesn't exist. Try again." << endl;
             cin.clear();
             cin.ignore(10000, '\n');
+            cout << "Press any key to continue to try again." << endl;
+            key_press = _getch();
+            system("cls");
         }
 
         gameStatus = checkWin(); // See if the game is over.
