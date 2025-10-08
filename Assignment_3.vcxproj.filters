@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Q1.cpp">
+    <ClCompile Include="24L-3049_Question_1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Q2.cpp">
+    <ClCompile Include="24L-3049_Question_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Q3.cpp">
+    <ClCompile Include="24L-3049_Question_3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="24L-3049_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
