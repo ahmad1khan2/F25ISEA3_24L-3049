@@ -28,4 +28,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="24L-3049_WordsList.txt" />
+  </ItemGroup>
 </Project>
