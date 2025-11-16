@@ -1,24 +1,25 @@
 #include <iostream>
 #include <vector>
 #include <conio.h>
+#include <string>
 using namespace std;
 
-// The game board, 1 through 9.
+/// The game board, 1 through 9.
 char board[9] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 // Just draws the board as it is.
 void drawBoard()
 {
     cout << "\n--- Tic-Tac-Toe ---" << endl;
-    cout << "     |     |     " << endl;
-    cout << "  " << board[0] << "  |  " << board[1] << "  |  " << board[2] << endl;
-    cout << "_____|_____|_____" << endl;
-    cout << "     |     |     " << endl;
-    cout << "  " << board[3] << "  |  " << board[4] << "  |  " << board[5] << endl;
-    cout << "_____|_____|_____" << endl;
-    cout << "     |     |     " << endl;
-    cout << "  " << board[6] << "  |  " << board[7] << "  |  " << board[8] << endl;
-    cout << "     |     |     " << endl;
+    cout << "      |     |     " << endl;
+    cout << "   " << board[0] << "  |  " << board[1] << "  |  " << board[2] << endl;
+    cout << " _____|_____|_____" << endl;
+    cout << "      |     |     " << endl;
+    cout << "   " << board[3] << "  |  " << board[4] << "  |  " << board[5] << endl;
+    cout << " _____|_____|_____" << endl;
+    cout << "      |     |     " << endl;
+    cout << "   " << board[6] << "  |  " << board[7] << "  |  " << board[8] << endl;
+    cout << "      |     |     " << endl;
 }
 
 // Checks for a winner or a draw.
@@ -47,62 +48,96 @@ int checkWin()
     return 0; // Board is full, it's a draw.
 }
 
+
 void runQ3()
 {
     // Reset the board to numbers 1-9 for a new game.
     for (int i = 0; i < 9; i++)
     {
+        // This converts the integer i to its char equivalent
+        // '0' is 48 in ASCII. 0 + '1' (49) = 49 ('1'). 1 + '1' (49) = 50 ('2').
         board[i] = i + '1';
     }
 
-    int currentPlayer = 1;
+    int player = 1; // This will just be 1 or 2
     int choice;
     char mark;
-    int gameStatus;
+    int gameStatus = -1; // -1 means "in progress"
 
     // Main game loop.
     do
     {
-        char key_press;
         system("cls");
         drawBoard();
 
         // Figure out whose turn it is.
-        mark = (currentPlayer % 2 == 1) ? 'X' : 'O';
-
-        cout << "Player " << currentPlayer << " (" << mark << "), pick a spot: ";
-        cin >> choice;
-
-        // Make sure the spot is valid and not already taken.
-        if (choice >= 1 && choice <= 9 && board[choice - 1] != 'X' && board[choice - 1] != 'O')
+        if (player == 1)
         {
-            board[choice - 1] = mark; // Put the X or O on the board.
-            currentPlayer++;          // Next player's turn.
-            cout << "Press any key to continue to the next players turn." << endl;
-            key_press = _getch();
-            system("cls");
+            mark = 'X';
         }
         else
         {
-            cout << "Idiot. That spot is taken or doesn't exist. Try again." << endl;
-            cin.clear();
-            cin.ignore(10000, '\n');
-            cout << "Press any key to continue to try again." << endl;
-            key_press = _getch();
-            system("cls");
+            mark = 'O';
         }
 
-        gameStatus = checkWin(); // See if the game is over.
-    } while (gameStatus == -1);
+        cout << "Player " << player << " (" << mark << "), pick a spot: ";
 
+        string inputLine;
+        getline(cin, inputLine); // Read input as a string
+
+        try
+        {
+            choice = stoi(inputLine); // Try to convert to a number
+        }
+        catch (const std::exception&)
+        {
+            choice = 0; // Set to invalid choice if conversion fails
+        }
+
+        // Make sure the spot is valid and not already taken.
+        // (choice - 1) is the array index.
+        if (choice >= 1 && choice <= 9 && board[choice - 1] != 'X' && board[choice - 1] != 'O')
+        {
+            board[choice - 1] = mark; // Put the X or O on the board.
+
+            gameStatus = checkWin(); // Check for a win or draw
+
+            // Switch to the other player *only if* the game isn't over.
+            if (gameStatus == -1)
+            {
+                // Switch player
+                if (player == 1)
+                {
+                    player = 2;
+                }
+                else
+                {
+                    player = 1;
+                } 
+            }
+        }
+        else
+        {
+            // Invalid move. We don't switch players.
+            cout << "Idiot. That spot is taken or doesn't exist. Try again." << endl;
+            cout << "Press any key to continue to try again." << endl;
+            char key_press = _getch();
+        }
+
+    } while (gameStatus == -1); // Keep looping as long as the game is in progress
+
+
+    system("cls");
     drawBoard(); // Show the final board.
 
     // Announce the winner or the draw.
     if (gameStatus == 1)
     {
-        cout << "\nGame Over. Player " << (currentPlayer - 1) << " wins!" << endl;
+        // 'player' never got switched on the final winning move,
+        // so 'player' is still the winner.
+        cout << "\nGame Over. Player " << player << " wins!" << endl;
     }
-    else
+    else // gameStatus must be 0
     {
         cout << "\nIt's a draw. Boring." << endl;
     }

@@ -8,21 +8,27 @@
 
 using namespace std;
 
-// Grabs a random word from the 24L-3049_WordsList.txt file.
+// Grabs a random word from the text file.
 string getRandomWordFromFile()
 {
     ifstream wordFile("24L-3049_WordsList.txt");
     vector<string> wordList;
     string tempWord;
 
-    if (!wordFile) { return "ERROR"; }
+    if (!wordFile) 
+    { 
+        return "ERROR in opening file!!!"; 
+    }
 
     while (wordFile >> tempWord)
     {
         wordList.push_back(tempWord);
     }
 
-    if (wordList.empty()) { return "EMPTY"; }
+    if (wordList.empty()) 
+    { 
+        return "EMPTY"; 
+    }
 
     srand(time(0));
     int randomIndex = rand() % wordList.size();
@@ -63,7 +69,7 @@ void runQ2()
         cout << "Guess a letter: ";
         cin >> userInput; // Read whatever the user types.
 
-        char playerGuess = userInput[0]; // **FIX**: We only care about the first letter.
+        char playerGuess = userInput[0]; //  We only care about the first letter.
 
         if (allGuessedLetters.find(playerGuess) != string::npos)
         {
